@@ -1,17 +1,16 @@
 'use client'
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import JoditEditor from 'jodit-react';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { UploadButton } from '@/utils/uploadthing';
 import Image from 'next/image';
 import {z} from 'zod'
-import { title } from 'process';
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { CreateData } from '@/actions/create';
 
-const formDataType = z.object({
+ const formDataType = z.object({
     title:z.string().min(1,{
         message:'title cannot be empty'
     }),
@@ -20,7 +19,7 @@ const formDataType = z.object({
     }),
     image:z.string().optional()
 })
-const Create = () => {
+const CraetePostPage = () => {
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const [image, setImage] = useState<string>('')
@@ -105,4 +104,4 @@ const Create = () => {
     );
 }
 
-export default Create
+export default CraetePostPage

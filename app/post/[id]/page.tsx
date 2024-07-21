@@ -106,8 +106,7 @@ console.log(post?.image)
                       <p className="text-sm text-muted-foreground">2 days ago</p>
                     </div>
                     <p>
-                      This is such a funny and clever story! I can't believe the king actually tried to tax jokes.
-                      Jokester sounds like a real hero.
+                      This is such a 
                     </p>
                   </div>
                 </div>
@@ -124,8 +123,7 @@ console.log(post?.image)
                       <p className="text-sm text-muted-foreground">1 week ago</p>
                     </div>
                     <p>
-                      I can't wait to read more about the Joke Tax Chronicles! This is such a creative and entertaining
-                      story. The king sounds like a real tyrant, but Jokester seems like a delightful character.
+                      I got it
                     </p>
                   </div>
                 </div>

@@ -64,3 +64,26 @@ export async function deletePost(formdata:FormData) {
     revalidatePath('/')
     redirect(`/`)
 }
+
+
+export const handleSearch =async(search:string)=>{
+
+
+    const res = await prisma.post.findMany({
+        where:{
+            title:{
+                contains:search,
+            
+            },
+            
+        },
+        include:{
+            author:true
+        }
+    })
+    
+    console.log(res)
+    return{
+        response:res
+    }
+    }
