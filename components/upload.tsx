@@ -14,7 +14,7 @@ const Upload = (post:any) => {
                         endpoint="imageUploader"
                         onClientUploadComplete={(res) => {
                             // Do something with the response
-                            console.log("Files: ", res);
+                          
                             // setImage(res[0].url)
                             //   alert("Upload Completed");
                         }}

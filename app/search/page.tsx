@@ -33,7 +33,7 @@ const SearchPage =() => {
         return
     }
     const res = await handleSearch(zodvalidated.data.search);
-    console.log('response is: ',res)
+    
     setPost(res.response)
    }
     // const post= await posts()
