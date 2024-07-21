@@ -1,3 +1,4 @@
+
 import React from 'react'
 
 /**
@@ -11,8 +12,12 @@ import { Button } from "@/components/ui/button"
 import prisma from '@/utils/prisma'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
+import { GetUserEmail, GetUserName } from '@/utils/session'
+import { deletePost } from '@/actions/create'
+import Link from 'next/link'
 const Blog = async({params}:{params:{id:string}}) => {
   
+const userEmail = await GetUserEmail()
 const post = await prisma.post.findUnique({
     where:{
         id:params.id
@@ -20,11 +25,14 @@ const post = await prisma.post.findUnique({
         author:true
     }
 })
+
+console.log(post?.author.email === userEmail)
+console.log(post?.image)
   return (
-    <div>
+    <div className='mx-auto max-w-3xl'>
       <section className="w-full pt-12 md:pt-24 lg:pt-32 border-b">
         <div className="container space-y-10 xl:space-y-16">
-          <div className="grid gap-4 px-4 md:grid-cols-2 md:gap-16">
+          <div className="grid gap-4 px-4  ">
             <div>
               <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
                 {post?.title}
@@ -32,7 +40,7 @@ const post = await prisma.post.findUnique({
             </div>
             <div className="flex flex-col items-start space-y-4">
               <Image
-             src={post?.image?(post?.image):'/sign.jpg'}       width={800}
+             src={post?.image ? post?.image:'/sign.jpg'}       width={800}
                 height={450}
                 alt="Blog Post Image"
                 className="aspect-[16/9] overflow-hidden rounded-lg object-cover"
@@ -43,6 +51,15 @@ const post = await prisma.post.findUnique({
            
            <div dangerouslySetInnerHTML={{ __html: post?.content?? ""}} />
           </div>
+          {
+            post?.author.email === userEmail &&
+        <div className='flex flex-col gap-5 mb-5'>
+            <form action={deletePost}>
+                <input type="text" hidden defaultValue={post?.id} name='id' />
+            <Button type='submit'>Delete</Button>
+            </form>
+        <Link className='mb-5' href={`/edit/${post?.id}`}><Button>Edit</Button></Link></div>
+          }
         </div>
       </section>
       <section className="w-full py-12 md:py-24 lg:py-32">
@@ -50,7 +67,7 @@ const post = await prisma.post.findUnique({
           <div className="flex items-center space-x-4">
             <Avatar className="h-12 w-12 border-2 border-primary">
             
-                <AvatarImage src={post?.image??''} />
+                <AvatarImage src={post?.author.image??''} />
                 <AvatarFallback>N</AvatarFallback>
               
             </Avatar>
@@ -58,6 +75,8 @@ const post = await prisma.post.findUnique({
               <h3 className="text-lg font-medium">{post?.author.name}</h3>
               <p className="text-sm text-muted-foreground">{post?.createdAt.toDateString()}</p>
             </div>
+
+            
           </div>
         </div>
       </section>

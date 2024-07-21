@@ -11,7 +11,7 @@ export default  async function Component() {
   const posts= await prisma.post.findMany({
     
     orderBy:{
-      createdAt:'asc'
+      createdAt:'desc'
     },
     include:{
       author:true
@@ -35,7 +35,7 @@ export default  async function Component() {
           <div className="p-4">
             <h3 className="text-lg font-semibold text-foreground">{post.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-4">
-              {post.content}
+            <div dangerouslySetInnerHTML={{ __html: post?.content?? ""}} />
             </p>
             <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
               <Avatar className="h-6 w-6 border">

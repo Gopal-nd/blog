@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BadgePlus, Menu, Search, X ,} from "lucide-react";
+import { BadgePlus, Menu, Search, UserRoundPlus, X ,} from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -37,12 +37,12 @@ const Navbar = () => {
         <section className=" hidden md:flex gap-5 items-center">
         <Link href={'/create'} className="hover:font-bold px-2 py-3 shadow-lg rounded-lg flex items-center gap-1 "> <BadgePlus /> Create</Link>
         <Link href={'/search'} className="hover:font-bold px-2 py-3 shadow-lg rounded-lg flex items-center gap-1 "> <Search /> Search</Link>
-    
+        <Link href={'/profile'} className="hover:font-bold px-2 py-3 shadow-lg rounded-lg flex items-center gap-1 ">  <UserRoundPlus /> Profile</Link>
         </section>
         {isOpen && (
           <motion.div
          
-            className="fixed h-full backdrop-blur-sm top-0 right-0 w-screen md:hidden bg-black/50  transition-all duration-200 ease-in-out "
+            className="fixed h-full backdrop-blur-sm top-0 right-0 w-screen md:hidden z-50 bg-black/50  transition-all duration-200 ease-in-out "
             onClick={() => setIsOpen(!isOpen)}
           >
             <motion.section 
@@ -57,6 +57,7 @@ const Navbar = () => {
               />
        <Link href={'/create'} className="hover:font-bold px-2 py-3 shadow-lg rounded-lg flex items-center gap-1 "> <BadgePlus /> Create</Link>
        <Link href={'/search'} className="hover:font-bold px-2 py-3 shadow-lg rounded-lg flex items-center gap-1 "> <Search /> Search</Link>
+       <Link href={'/profile'} className="hover:font-bold px-2 py-3 shadow-lg rounded-lg flex items-center gap-1 ">  <UserRoundPlus /> Profile</Link>
               <div className="text-2xl font-semibold fixed left-0 bottom-0 px-8 py-4">
         
               </div>
