@@ -59,21 +59,20 @@ const EditPage = (post:any) => {
             toast.error('will the field properly')
             return
         }
-        console.log(zodFormData.data)
         const v = zodFormData.data
-        console.log('image url is', v.image)
+        
         await Editpage(v.content,v.image,v.title,v.postId)
 
     }
     useEffect( ()=>{
         const get=async()=>{
-            console.log('post from the use effects',post.post);
+          
             
             const uniqePost = await axios.get(`/api/update/?id=${post.post}`)
-            console.log(uniqePost.data.post)
+      
             SetAllData(uniqePost.data.post)
             setImage(uniqePost.data.post.image)
-            console.log(uniqePost.data.post.image)
+          
         }
         get()
 },[])
@@ -107,7 +106,7 @@ const EditPage = (post:any) => {
                     endpoint="imageUploader"
                     onClientUploadComplete={(res) => {
                         // Do something with the response
-                        console.log("Files: ", res);
+                     
                         setImage(res[0].url)
                         //   alert("Upload Completed");
                     }}

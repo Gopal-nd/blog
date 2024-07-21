@@ -14,8 +14,7 @@ interface CreateData{
 export  async function CreateData (content: string, image: string | undefined, title: string, ){
 const Email = await GetUserEmail()
 const name = await GetUserName()
-console.log(Email,name)
-    console.log(content,image,title)
+
     const res =await prisma.post.create({
         data:{
             content:content,
@@ -24,15 +23,14 @@ console.log(Email,name)
             authorEmail:Email
         }
     })
-    console.log(res.id)
+    
     revalidatePath('/')
     redirect(`/post/${res.id}`)
 }
 export  async function Editpage (content: string, image: string | undefined, title: string,postId:string ){
 const Email = await GetUserEmail()
 const name = await GetUserName()
-console.log(Email,name,image,postId)
-    console.log(content,'image is ',(image),title)
+
     const res =await prisma.post.update({
         where:{
             id:postId
@@ -44,7 +42,7 @@ console.log(Email,name,image,postId)
             authorEmail:Email
         }
     })
-    console.log(res.id)
+
     revalidatePath('/')
     redirect(`/post/${res.id}`)
 }
@@ -54,7 +52,7 @@ const zodvalidatedDelete = z.string()
 export async function deletePost(formdata:FormData) {
     const getId = formdata.get('id')
     const id = zodvalidatedDelete.safeParse(getId)
-    console.log('id is thw sahhds',id.data) 
+
 
     const deletePost = await prisma.post.delete({
         where:{
@@ -85,7 +83,7 @@ export const handleSearch =async(search:string)=>{
         }
     })
     
-    console.log(res)
+    
     return{
         response:res
     }
@@ -100,7 +98,7 @@ const Email = await GetUserEmail()
 if(!comment||!Email){
     return
 }
-console.log(comment,postId)
+
 const response = await prisma.comment.create({
     data:{
         comment:comment,
@@ -116,7 +114,7 @@ const commentId:string|any = formdata.get('commentid')
 
 const Email = await GetUserEmail()
 
-// console.log(comment,postId)
+// ent,postId)
 const response = await prisma.comment.delete({
     where:{
     id:commentId
