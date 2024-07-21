@@ -11,6 +11,10 @@ export default function Component() {
     const session = useSession();
 const router = useRouter()
 
+if(session.data?.user?.email){
+  router.push('/')
+}
+
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       <div className="flex flex-col items-center justify-center bg-primary p-8 text-primary-foreground">

@@ -19,7 +19,7 @@ const searchSchema =  z.object({
     })
 })
 
-const page =() => {
+const SearchPage =() => {
     const [post,setPost]=useState<any>([])
    const handle =async(formdata:FormData)=>{
     const searchValue ={search:formdata.get('search')}
@@ -87,4 +87,4 @@ post.lenght &&(
   )
 }
 
-export default page
+export default SearchPage

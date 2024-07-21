@@ -1,6 +1,8 @@
+import { Button } from '@/components/ui/button'
 import prisma from '@/utils/prisma'
 import { GetUserEmail } from '@/utils/session'
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+import { Heading1 } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -14,11 +16,22 @@ const Profile = async() => {
             author:true
         }
     })
+
+    if(!email){
+        return(
+         <center>
+
+             <Button className=' text-center mt-10 '><Link href={'/signin'}>Login Now</Link></Button>
+         </center> 
+        )
+    }
   return (
     <>
     <h1 className='mt-4 mb-4 text-3xl font-bold'><center>My Posts</center></h1>
      <section className="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:p-6">
-      {
+{!posts.length && <h1 className='text-3xl'><center>You have not Created any Posts <span className=' hover:text-3xl '><Link href={'/create'} className='text-blue-400'>Create now</Link></span></center></h1>}
+
+      {posts.length&&
         posts.map((post)=>(
           <div key={post.id} className="group relative overflow-hidden rounded-lg bg-background shadow-sm transition-all hover:shadow-md">
           <Link href={`/post/${post.id}`} className="absolute inset-0 z-10" prefetch={true}>

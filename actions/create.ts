@@ -79,6 +79,9 @@ export const handleSearch =async(search:string)=>{
         },
         include:{
             author:true
+        },
+        orderBy:{
+          createdAt:'desc'
         }
     })
     
@@ -87,3 +90,43 @@ export const handleSearch =async(search:string)=>{
         response:res
     }
     }
+
+
+export const handleComment=async(formdata:FormData)=>{
+const comment:string|any = formdata.get('comment')
+const postId:string|any = formdata.get('postId')
+const Email = await GetUserEmail()
+
+if(!comment||!Email){
+    return
+}
+console.log(comment,postId)
+const response = await prisma.comment.create({
+    data:{
+        comment:comment,
+        postId:postId,
+        authorEmail:Email
+    }
+})
+revalidatePath(`/post/${postId}`)
+redirect(`/post/${postId}`)
+}
+export const DeletComment=async(formdata:FormData)=>{
+const commentId:string|any = formdata.get('commentid')
+
+const Email = await GetUserEmail()
+
+// console.log(comment,postId)
+const response = await prisma.comment.delete({
+    where:{
+    id:commentId
+    },include:{
+        post:true
+    }
+
+})
+
+
+revalidatePath(`/post/${response.post.id}`)
+redirect(`/post/${response.post.id}`)
+}

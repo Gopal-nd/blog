@@ -13,7 +13,7 @@ import prisma from '@/utils/prisma'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
 import { GetUserEmail, GetUserName } from '@/utils/session'
-import { deletePost } from '@/actions/create'
+import { DeletComment, deletePost, handleComment } from '@/actions/create'
 import Link from 'next/link'
 const Blog = async({params}:{params:{id:string}}) => {
   
@@ -26,6 +26,19 @@ const post = await prisma.post.findUnique({
     }
 })
 
+const comments =await prisma.comment.findMany({
+  where:{
+    post:{
+      id:post?.id
+    }
+  },
+  include:{
+    author:true
+  },
+  orderBy:{
+    createdAt:'desc'
+  }
+})
 console.log(post?.author.email === userEmail)
 console.log(post?.image)
   return (
@@ -84,50 +97,58 @@ console.log(post?.image)
         <div className="container px-4 md:px-6">
           <div className="mx-auto max-w-3xl space-y-6">
             <h2 className="text-3xl font-bold">Comments</h2>
-            <form className="grid gap-4">
+            <form className="grid gap-4" action={handleComment}>
+              <input type="text" name='postId' hidden defaultValue={post?.id} />
               <Textarea
                 placeholder="Write your comment..."
+                name='comment'
                 className="w-full rounded-md border border-input bg-background px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               />
-              <Button type="submit" className="w-full">
+             {
+              userEmail ?
+               <Button type="submit" className="w-full">
                 Submit Comment
-              </Button>
+              </Button>:<Button > <Link href={'/signin'}>Login to Comment</Link></Button>
+              }
             </form>
             <div className="space-y-6">
-              <div className="grid gap-4">
+{
+  comments&&(
+    comments.map((comment)=>(
+<div key={comment.id} className="grid gap-4">
                 <div className="flex items-start space-x-4">
                   <Avatar className="h-10 w-10 border-2 border-primary">
-                    <AvatarImage src="/placeholder-user.jpg" />
+                    <AvatarImage src={comment?.author?.image??''} />
                     <AvatarFallback>AC</AvatarFallback>
                   </Avatar>
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <h4 className="font-medium">Jane Doe</h4>
-                      <p className="text-sm text-muted-foreground">2 days ago</p>
+                      <h4 className="font-medium">{comment.author.name}</h4>
+                      <p className="text-sm text-muted-foreground">{comment.createdAt.toDateString()}</p>
                     </div>
-                    <p>
-                      This is such a 
+                    <div className='flex justify-between items-center gap-10'>
+
+                    <p >
+                      {comment.comment}
                     </p>
+                    <p>
+                      {comment.author.email===userEmail&&(
+                        <form action={DeletComment}>
+                          <input type="text" hidden defaultValue={comment.id} name='commentid' />
+                          <Button type='submit'>Delete</Button>
+                        </form>
+                      )}
+                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="grid gap-4">
-                <div className="flex items-start space-x-4">
-                  <Avatar className="h-10 w-10 border-2 border-primary">
-                    <AvatarImage src="/placeholder-user.jpg" />
-                    <AvatarFallback>AC</AvatarFallback>
-                  </Avatar>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <h4 className="font-medium">Bob Smith</h4>
-                      <p className="text-sm text-muted-foreground">1 week ago</p>
-                    </div>
-                    <p>
-                      I got it
-                    </p>
-                  </div>
-                </div>
-              </div>
+    ))
+  )
+}
+              
+
+            
             </div>
           </div>
         </div>
