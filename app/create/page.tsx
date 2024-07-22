@@ -10,6 +10,8 @@ import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { CreateData } from '@/actions/create';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 // Dynamically import JoditEditor to ensure it only runs on the client-side
 const JoditEditor = dynamic(() => import('jodit-react').then(mod => mod.default), { ssr: false });
@@ -25,6 +27,8 @@ const formDataType = z.object({
 });
 
 const CreatePostPage = () => {
+    const session = useSession()
+    const user = session.data?.user?.email
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const [image, setImage] = useState<string>('');
@@ -91,7 +95,10 @@ const CreatePostPage = () => {
                     <input type="text" name='content' hidden defaultValue={content} />
                     <input type="text" name='image' hidden defaultValue={image} />
                 </div>
-                <Button type='submit'>Publish</Button>
+                {
+                    !user ?<Button><Link href={'/signin'}>Login Now</Link></Button> : <Button type='submit'>Publish</Button>
+                }
+               
             </form>
         </motion.div>
     );
