@@ -44,6 +44,7 @@ const SearchPage =() => {
         <Button type="submit"> search</Button>
         </form>
         <center>
+          
 {
 post.lenght &&(
 <span>Available result:</span>

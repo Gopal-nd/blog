@@ -70,9 +70,9 @@ export const handleSearch =async(search:string)=>{
     const res = await prisma.post.findMany({
         where:{
             title:{
-                contains:search,
+                contains:search.toLowerCase()||search.toUpperCase(),
             
-            },
+            }
             
         },
         include:{
@@ -82,7 +82,7 @@ export const handleSearch =async(search:string)=>{
           createdAt:'desc'
         }
     })
-    
+  
     
     return{
         response:res

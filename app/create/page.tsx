@@ -96,7 +96,7 @@ const CreatePostPage = () => {
                     <input type="text" name='image' hidden defaultValue={image} />
                 </div>
                 {
-                    !user ?<Button><Link href={'/signin'}>Login Now</Link></Button> : <Button type='submit'>Publish</Button>
+                    !user ?<Link className='px-2 py-2 rounded-sm bg-black text-white text-center' href={'/signin'}>Login Now</Link> : <Button type='submit'>Publish</Button>
                 }
                
             </form>
