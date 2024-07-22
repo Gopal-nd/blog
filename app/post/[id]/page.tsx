@@ -46,7 +46,7 @@ const Blog = async ({ params }: { params: { id: string } }) => {
         <div className="container space-y-10 xl:space-y-16">
           <div className="grid gap-4 px-4  ">
             <div>
-              <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
+              <h1 className=" mb-2 lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
                 {post?.title}
               </h1>
             </div>

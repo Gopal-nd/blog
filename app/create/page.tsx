@@ -74,6 +74,7 @@ const CreatePostPage = () => {
                                 setImage(res[0].url);
                             }}
                             onUploadError={(error: Error) => {
+                                console.log(error)
                                 alert(`ERROR! ${error.message}`);
                             }}
                         />
